@@ -1,0 +1,71 @@
+#include <iostream>
+
+
+
+bool containsDigits(unsigned int n, int k){
+
+    if (n==0) {
+
+        return false;}
+
+    if (n % 10 == k) {
+
+        return true;} // k is found
+
+    return containsDigits(n / 10, k);
+
+}
+
+
+
+int main () {
+
+    int maxNumber = 10;
+
+    unsigned int numbers[maxNumber];
+
+    int k;
+
+
+
+    std::cout << "Enter 10 whole numbers(>999):" << std::endl;
+
+    for(int i = 0; i< maxNumber; ++i) {
+
+        std::cout << "Number " << i + 1 << ": ";
+
+        std::cin >> numbers[i];
+
+
+
+        if (numbers[i] <= 999){
+
+            std::cout << "Enter whole number >999" << std::endl;
+
+            return 1;
+
+        }
+
+    }
+
+    std::cout << "Enter k: ";
+
+    std::cin >> k;
+
+
+
+    std::cout << "Numbers containing k" << k << ":" << std::endl;
+
+    for (int i = 0; i < maxNumber; ++i){
+
+        if(containsDigits(numbers[i], k)){
+
+            std::cout << numbers[i] << std::endl;
+
+        }
+
+    }
+
+    return 0;
+
+}
