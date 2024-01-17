@@ -1,0 +1,75 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <limits>
+
+std::string obiknovenMasaj(unsigned short int gore, unsigned short int vlqvo, unsigned short int grub, unsigned short int vremeVChasove);
+
+int main(){
+    unsigned short int gore_dolu = 0;
+
+    do{
+        std::cout << "gore ili dolu? gore = 1; dolu = 2; : ";
+        std::cin >> gore_dolu;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+
+    } while(gore_dolu < 1 || gore_dolu > 2);
+
+    unsigned short int vlqvo_vdqsno = 0;
+
+    do{
+        std::cout << "vlqvo ili vdqsno? vlqvo = 1; vdqsno = 2; : ";
+        std::cin >> vlqvo_vdqsno;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+
+    } while(vlqvo_vdqsno < 1 || vlqvo_vdqsno > 2);
+
+    unsigned short int grub_korem = 0;
+
+    do {
+        std::cout << "po grub ili po korem? grub = 1; korema = 2; : ";
+        std::cin >> grub_korem;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+
+    } while(grub_korem < 1 || grub_korem > 2);
+
+    unsigned short int vreme = 0;
+
+    do {
+        std::cout << "za kolko chasa? : ";
+        std::cin >> vreme;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        
+    } while(vreme < 1 || vreme > 24);
+
+    std::cout << obiknovenMasaj(gore_dolu, vlqvo_vdqsno, grub_korem, vreme) << std::endl;
+
+    return 0;
+}
+
+std::string obiknovenMasaj(unsigned short int gore, unsigned short int vlqvo, unsigned short int grub, unsigned short int vremeVChasove) {
+
+    std::ostringstream kudeDaMachkam;
+
+   kudeDaMachkam << "Machkai " << (gore == 1 ? "gore " : "dolu ") << (vlqvo == 1 ? "vlqvo " : "vdqsno ")
+   << "po " << (grub == 1 ? "gurba " : "korema ") << "za " << vremeVChasove << " chasa." << std::endl;
+
+    return kudeDaMachkam.str();
+
+}
