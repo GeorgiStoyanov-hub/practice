@@ -1,0 +1,76 @@
+#include <iostream>
+
+using namespace std;
+
+enum class Color { WHITE, GRAY, BLACK };
+
+bool hasCycleDFSUtil(int** graph, Color* colors, int numNodes, int node) {
+    colors[node] = Color::GRAY; // Mark the current node as being visited (GRAY)
+
+    for (int neighbor = 0; neighbor < numNodes; ++neighbor) {
+        if (graph[node][neighbor]) {
+            if (colors[neighbor] == Color::GRAY) {
+                // If the neighbor is being visited and is not the parent of the current node, a cycle exists
+                return true;
+            } else if (colors[neighbor] == Color::WHITE && hasCycleDFSUtil(graph, colors, numNodes, neighbor)) {
+                // If the neighbor has a cycle directly reachable from the current node
+                return true;
+            }
+        }
+    }
+
+    colors[node] = Color::BLACK; // Mark the current node as visited and finished (BLACK)
+    return false;
+}
+
+bool hasCycleDFS(int** graph, int numNodes) {
+    Color* colors = new Color[numNodes]; // Allocate memory for the colors array
+
+    // Initialize all elements of the colors array to the initial state (WHITE)
+    for (int i = 0; i < numNodes; ++i) {
+        colors[i] = Color::WHITE;
+    }
+
+    // Iterate through all nodes of the graph and call DFS utility function on each unvisited node
+    for (int i = 0; i < numNodes; ++i) {
+        if (colors[i] == Color::WHITE && hasCycleDFSUtil(graph, colors, numNodes, i)) {
+            delete[] colors; // Deallocate memory for the colors array
+            return true; // If a cycle is detected in any component, return true
+        }
+    }
+
+    delete[] colors; // Deallocate memory for the colors array
+    return false; // No cycles found in the graph
+}
+
+int main() {
+    // Define the directed graph using the adjacency matrix representation
+    int numNodes;
+    cout << "Enter the number of nodes in the graph: ";
+    cin >> numNodes;
+
+    int** graph = new int*[numNodes];
+    for (int i = 0; i < numNodes; ++i) {
+        graph[i] = new int[numNodes]();
+    }
+
+    // Populate the adjacency matrix (example graph with a cycle: 0 -> 1 -> 2 -> 0)
+    graph[0][1] = 1;
+    graph[1][2] = 1;
+    graph[2][0] = 1; // Introducing a back edge to create a cycle (2 -> 0)
+
+    // Check for cycles in the graph using DFS
+    if (hasCycleDFS(graph, numNodes)) {
+        cout << "Graph contains a cycle." << endl;
+    } else {
+        cout << "Graph does not contain a cycle." << endl;
+    }
+
+    // Deallocate memory for the adjacency matrix
+    for (int i = 0; i < numNodes; ++i) {
+        delete[] graph[i];
+    }
+    delete[] graph;
+
+    return 0;
+}
